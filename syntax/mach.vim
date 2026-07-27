@@ -4,24 +4,24 @@ endif
 
 syn keyword machKeyword let var val const static pub fun inline typedef
 syn keyword machKeyword export extern opaque embed register restrict
-syn keyword machKeyword impl alias volatile async fwd rec ext
-syn keyword machType bool char byte void string cstr
+syn keyword machKeyword impl alias volatile async rec ext def
+syn keyword machType bool char byte void string cstr str
 syn keyword machType isize usize size
 syn keyword machType int uint long ulong
 syn keyword machType float double f32 f64 f128
 
-syn keyword machLabel default ref deref as
+syn keyword machLabel default ref deref
 syn keyword machConstant true false nil
 syn keyword machSComment assert
 syn keyword machMacro std
 "syn keyword machSMacro print alignof typeof
-"syn match   machSMacro   '\v<(put|[e]?print|[e]?println||alignas|alignof|typeof|typeof_unequal)>'
-"syn match   machNew      '\v<(new|[m]?alloc)>'
-"syn match   machFree     '\v<(free)>'
+"syn match machSMacro '\v<(put|[e]?print|[e]?println||alignas|alignof|typeof|typeof_unequal)>'
+"syn match machAdded '\v<(new|[m]?alloc)>'
+"syn match machException '\v<(free)>'
 
 syn keyword machSelf self
 syn keyword machRepeat do while loop for in to
-syn keyword machStatement break continue ret defer goto
+syn keyword machStatement brk cnt ret fin
 syn keyword machConditional if or else elif match unless switch case
 syn keyword machInclude include link when import
 
@@ -29,32 +29,46 @@ syn keyword machException throw try catch cast unsafe raw
 syn keyword machPanic panic
 "syn keyword machSuper   private
 
-syn match machPreProc    '[@]'
-syn match machSymbol     '[,;:\.]'
-syn match machOperator   '[\+\-\%=\/\^\&\*!?><\$|~]'
-syn match machConstant   '[{}\[\]()]'
-syn match machType       '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\)' " (type*)
-syn match machType       '\v\[@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\]' " [type*]
-syn match machType       '\v<\w+_[tscemui]>'
-syn match machMacro      '\v<[_]*\u[A-Z0-9_]*>'
-syn match machType       '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
-syn match machType       '\v\.?\zs<([iu][0-9]{1,3})?>'
-syn match machRepeat     '\v([^\.](\.|::|-\>))@<=\w\w*'
-syn match machType       '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
-"syn match machFunc       '\v[_]*\l\w*\ze((\[.*\])|((::)?\<.*\>))*\s*\('
-syn match machFunc       '\v[_]*\w+\ze((\[.*\])|((::)?\<.*\>))*\s*\('
+syn match machPreProc   '[@]'
+syn match machSymbol    '[,;:\.]'
+syn match machOperator  '[\+\-\%=\/\^\&\*!?><\$|~]'
+syn match machConstant  '[{}\[\]()]'
+syn match machType      '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\)' " (type*)
+syn match machType      '\v\[@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\]' " [type*]
+syn match machType      '\v<\w+_[tscemui]>'
+syn match machMacro     '\v<[_]*\u[A-Z0-9_]*>'
+syn match machType      '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
+syn match machType      '\v\.?\zs<([iu][0-9]{1,3})?>'
+syn match machRepeat    '\v([^\.](\.|::|-\>))@<=\w\w*'
+syn match machType      '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
+syn match machFunc      '\v[_]*\w+\ze((\[.*\])|((::)?\<.*\>))*\s*\('
 
-syn match machException  '\v(\W@<=[~&!*?]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[*!?]+\ze\W)'
-"syn match machStruct     '\v((type|model|struct|enum|union)(\[.*\])?\s*)@<=[_]*\w+\ze(\[.*\])?\s*(\(|\{)'
+syn match machException '\v(\W@<=[~*@!?]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[!]+\ze\W)'
+syn match machException '\v\-\>'
 
-syn match machInclude    '\v^<(use).*'
-syn match machSMacro     '\v<(result|option)\ze\s*\['
-syn match machMacro      '\v^\s*\[.{-}\]'
-syn match machType       '\v<(str)\ze\s*\('
-"syn match machSMacro     '\v<(reduce|deref|list)\ze\s*\('
-syn match machLabel      '\v<(addr)\ze\s*\('
-syn match machAdded      '\v^\s*<(test)\ze\s+'
-syn match machSComment   '\v<\@(\w+)>'
+syn match machType      '\v<[uif]\d+(x\d+)+>' "f64x6
+syn match machAdded     '\v^\s*<(test)\ze\s+'
+"syn match machInclude   '\v^<(use|fwd).*'
+syn match machSComment  '\v\$(\w+)'
+"syn match machSMacro    '\v<(result|option)\ze\s*\['
+"syn match machMacro     '\v^\s*\[.{-}\]'
+"syn match machType      '\v<(str)\ze\s*\('
+""syn match machSMacro    '\v<(reduce|deref|list)\ze\s*\('
+"syn match machLabel     '\v<(addr)\ze\s*\('
+
+syn match machInclude "\v^\s*(use|fwd)" nextgroup=machRepeat,machString,machSymbol skipwhite
+syn match machRepeat "\v\w+" contained nextgroup=machString,machSymbol,machRepeat skipwhite
+"syn match machSymbol ":" contained nextgroup=machString,machRepeat skipwhite
+syn match machString "\v(\w+\.)+" contained nextgroup=machRepeat skipwhite
+syn match machString "\v:\s*(\w+(\.\w+)*)" contained
+
+syn match machConstant contained /\v[\<,\>]/
+syn region machConstantSpec
+    \ oneline
+    \ keepend
+    \ contains=machType,machOperator,machMacro,machSComment,machConstant,machConstantSpec
+    \ start=/\v\<\s*/
+    \ end=/\v\s*\>/
 
 " -- shader
 "syn match   machKeyword  '\v<(uniform|instance|varying|var|vertex|fragment|in|out)>\s'
@@ -69,14 +83,10 @@ syn match   machType     '\v<vec[234][dbfhui]?>'
 syn match   machType     '\v<mat[234](x[234]f)?>'
 syn match   machType     '\v<(vec|mat|list)\ze\['
 
-
 "hi def machSymbol ctermfg=DarkGray guifg=DarkGray
 hi def link machSMacro   SpecialComment
-hi def link machNew      Added
-hi def link machFree     Exception
 hi def link machTitle    Title
 hi def link machAdded    Added
-hi def link machStruct   Changed
 hi def link machConstant Constant
 hi def link machSymbol   Changed
 hi def link machMacro    Macro
@@ -85,7 +95,6 @@ hi def link machFunc     Function
 hi def link machTypedef  Changed
 "hi def machType ctermfg=DarkCyan guifg=DarkCyan
 hi def link machType     MoreMsg
-"hi def link machType SpecialComment
 "hi def machSelf ctermfg=DarkMagenta guifg=DarkMagenta
 hi def link machSelf     Label
 hi def link machModeMsg  ModeMsg
@@ -105,7 +114,6 @@ syn match machNumber "\v<0[xX][0-9a-fA-F_]+([iuIU]?[lL]?[0-9]{-,3})?>"
 syn match machNumber "\v<0[bB][01_]+([iuIU]?[lL]?[0-9]{-,3})?>"
 
 syn match machFloat  '\v<\.\d+([eE][+-]?\d+)?[fFdD]?>' display
-"syn match machFloat  '\v<([0][1-9]*)([eE][+-]?\d+)?[fFdD]?>' display
 syn match machFloat  '\v<0x\x+(\.\x+)?[pP][+-]?\d+[fFdD]?>' display
 
 " Integer literals
@@ -162,7 +170,7 @@ syn match   machFunc "\h\w*" display contained
 syn keyword machKeyword union struct enum trait nextgroup=machTypedef skipwhite 
 "syn keyword machKeyword union nextgroup=machTypedef skipwhite skipempty contained
 "syn keyword machMacro platform macro nextgroup=machTypedef skipwhite skipempty
-syn keyword machKeyword def nextgroup=machFunc skipwhite
+syn keyword machKeyword fun nextgroup=machFunc skipwhite
 " adapted from neovim runtime/syntax
 syn keyword machTodo contained TODO FIXME XXX NOTE
 "syn region  machComment  start="/\*" end="\*/" contains=machTodo,@Spell
