@@ -33,7 +33,7 @@ setlocal nolisp
 " e      -> else
 " 0=case -> case
 setlocal indentkeys=o,O,0{,0},0),0],!^F, ",!<Tab>
-"setlocal cinwords=if,else,for,while,match
+"setlocal cinwords=if,or,for,while
 setlocal indentexpr=GetMachIndent(v:lnum)
 
 let b:undo_indent = "setlocal indentexpr< cinoptions< cindent< cinkeys <"
@@ -50,18 +50,21 @@ function! GetMachIndent(lnum)
         "return match(prevLine, '\\\\')
     "endif
 
-    if currentLine =~ '\v^\s*[)\]}]+\s*(\/\/.*)?$'
-        return indent(currentLineNum)
-    endif
-    if prevLine =~ '\v^\s*break\s*(\/\/.*)?$'
-        return indent(prevLineNum) - sw
-    endif
-    if prevLine =~ '\v([(\[{:])\s*(\/\/.*)?$'
+    "if prevLine =~ '\v^\s*\w+:\s*(\#.*)$'
+        "return indent(prevLineNum) - sw
+    "endif
+    "if currentLine =~ '\v\s*[)\]}]+\s*(\#.*)$'
+        "return indent(currentLineNum)
+    "endif
+    if prevLine =~ '\v([(\[{:])\s*(\#.*)$'
         return indent(prevLineNum) + sw
     endif
-    if prevLine =~ '\v([^(]&[^\[]&[^\{]&[^:])\s*$'
+    if prevLine =~ '\v\S+\s*(\#.*)$'
         return indent(prevLineNum)
     endif
+    "if prevLine =~ '\v([^(]&[^\[]&[^\{]&[^:])\s*$'
+        "return indent(prevLineNum)
+    "endif
 
     return cindent(a:lnum)
 endfunction

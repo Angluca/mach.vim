@@ -43,8 +43,8 @@ syn match machRepeat    '\v([^\.](\.|::|-\>))@<=\w\w*'
 syn match machType      '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
 syn match machFunc      '\v[_]*\w+\ze((\[.*\])|((::)?\<.*\>))*\s*\('
 
-syn match machException '\v(\W@<=[~*@!?]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[!]+\ze\W)'
-syn match machException '\v\-\>'
+syn match machException '\v(\W@<=[~*@!?^]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[!]+\ze\W)'
+syn match machException '\v(\-\>)|(:\^)'
 
 syn match machType      '\v<[uif]\d+(x\d+)+>' "f64x6
 syn match machAdded     '\v^\s*<(test)\ze\s+'
@@ -171,14 +171,10 @@ syn keyword machKeyword union struct enum trait nextgroup=machTypedef skipwhite
 "syn keyword machKeyword union nextgroup=machTypedef skipwhite skipempty contained
 "syn keyword machMacro platform macro nextgroup=machTypedef skipwhite skipempty
 syn keyword machKeyword fun nextgroup=machFunc skipwhite
-" adapted from neovim runtime/syntax
 syn keyword machTodo contained TODO FIXME XXX NOTE
 "syn region  machComment  start="/\*" end="\*/" contains=machTodo,@Spell
-"syn match   machComment  "//.*$" contains=machTodo,@Spell
 "syn match   machSymbol   "\\\\.*$"
-"syn match   machPreProc  '\#.*$'
 syn match   machComment  '\v\#.*$' contains=machTodo,@Spell
-syn match   machPreProc  '\v^\#\s*[\[].*$'
-
+syn match   machPreProc  '\v^\#\[\S.*$'
 
 let b:current_syntax = "mach"

@@ -10,7 +10,7 @@ if exists(':CompilerSet') != 2
   command -nargs=* CompilerSet setlocal <args>
 endif
 
-if filereadable("mach.toml") || filereadable("makefile")
+if filereadable("Makefile") || filereadable("makefile")
   CompilerSet makeprg=make
 else
   CompilerSet makeprg=mach\ build\ .

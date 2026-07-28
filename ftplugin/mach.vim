@@ -12,7 +12,7 @@ compiler mach
 setl formatoptions+=croql/ formatoptions-=t
 
 " Miscellaneous settings
-setl comments=:#
+setl comments=f:#[,:#
 setl commentstring=#\ %s
 setl iskeyword+=@-@
 setl suffixesadd=.mach
