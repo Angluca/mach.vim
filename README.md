@@ -16,8 +16,4 @@ au filetype mach call LspAddServer([#{
             \    path: 'mls',
             \  }])
 ```
-<img width="400" height="500" alt="Image" src="https://github.com/user-attachments/assets/3c77c54f-0e48-4098-ad91-1aadfe7241d2" />
-
-
-
-
+<img width="926" height="503" alt="Image" src="https://github.com/user-attachments/assets/baba9dcd-cb4a-47e1-bdc0-432c2cba7038" />

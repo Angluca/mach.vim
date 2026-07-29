@@ -25,7 +25,7 @@ syn keyword machStatement brk cnt ret fin
 syn keyword machConditional if or else elif match unless switch case
 syn keyword machInclude include link when import
 
-syn keyword machException throw try catch cast unsafe raw
+syn keyword machException throw try catch cast raw
 syn keyword machPanic panic
 "syn keyword machSuper   private
 
@@ -169,12 +169,33 @@ syn match   machFunc "\h\w*" display contained
 "syn keyword machKeyword union struct enum type nextgroup=machTypedef skipwhite skipempty
 syn keyword machKeyword union struct enum trait nextgroup=machTypedef skipwhite 
 "syn keyword machKeyword union nextgroup=machTypedef skipwhite skipempty contained
-"syn keyword machMacro platform macro nextgroup=machTypedef skipwhite skipempty
 syn keyword machKeyword fun nextgroup=machFunc skipwhite
+"syn keyword machTypedef asm nextgroup=machRepeat skipwhite skipempty
 syn keyword machTodo contained TODO FIXME XXX NOTE
 "syn region  machComment  start="/\*" end="\*/" contains=machTodo,@Spell
 "syn match   machSymbol   "\\\\.*$"
 syn match   machComment  '\v\#.*$' contains=machTodo,@Spell
 syn match   machPreProc  '\v^\#\[\S.*$'
+
+" machAsm
+hi def link machAsmEntry Changed
+hi def link machAsmMacro Macro
+hi def link machAsmCmd SpecialComment
+hi def link machAsmCall Changed
+hi def link machAsmGoto Label
+
+syn keyword machAsmMacro main contained containedin=ALLBUT,machAsm
+"syn keyword machAsmCmd mov contained containedin=ALLBUT,machAsm
+syn region machAsm start=/\v^\s+asm\s+\w+\s*\{/
+    \ end=/\v^(\s+asm\s+\w+\s*\{[^}]*\})|(\s+\})\s*$/
+    \ contains=machAsmEntry,machAsmCmd,machAsmCall,machAsmMacro,machAsmGoto,machComment,machConstant,machSymbol,machOperator,machType,machNumber,machFloat,machInteger
+    \ containedin=ALLBUT,machAsm keepend
+syn match machAsmEntry '\v^\s*asm\s+' contained containedin=ALLBUT,machAsm
+syn match machAsmMacro /\v^\s*asm\s+\w+/ contained containedin=ALLBUT,machAsm
+syn match machAsmMacro '\v<_\w+>' contained containedin=ALLBUT,machAsm
+syn match machAsmCmd '\v^\s+\w+(\.\w+)*\s' contained containedin=ALLBUT,machAsm
+syn match machAsmCall '\v^\s+\w+(\.\w+)*\s*$' contained containedin=ALLBUT,machAsm
+syn match machAsmGoto '\v^\s*\w+\ze:' contained containedin=ALLBUT,machAsm
+
 
 let b:current_syntax = "mach"
