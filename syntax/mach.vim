@@ -4,8 +4,8 @@ endif
 
 syn keyword machKeyword let var val const static pub fun inline typedef
 syn keyword machKeyword export extern opaque embed register restrict
-syn keyword machKeyword impl alias volatile async rec ext def
-syn keyword machType bool char byte void string cstr str
+syn keyword machKeyword impl alias volatile async rec uni ext def
+syn keyword machType bool char byte void string cstr str ptr
 syn keyword machType isize usize size
 syn keyword machType int uint long ulong
 syn keyword machType float double f32 f64 f128
@@ -41,7 +41,7 @@ syn match machType      '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
 syn match machType      '\v\.?\zs<([iu][0-9]{1,3})?>'
 syn match machRepeat    '\v([^\.](\.|::|-\>))@<=\w\w*'
 syn match machType      '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
-syn match machFunc      '\v[_]*\w+\ze((\[.*\])|((::)?\<.*\>))*\s*\('
+syn match machFunc      '\v\w+\ze((\[[^=;]*\])|((::)?\<.*\>))*\s*\('
 
 syn match machException '\v(\W@<=[~*@!?^]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[!]+\ze\W)'
 syn match machException '\v(\-\>)|(:\^)'
@@ -56,7 +56,7 @@ syn match machSComment  '\v\$(\w+)'
 ""syn match machSMacro    '\v<(reduce|deref|list)\ze\s*\('
 "syn match machLabel     '\v<(addr)\ze\s*\('
 
-syn match machInclude "\v^\s*(use|fwd)" nextgroup=machRepeat,machString,machSymbol skipwhite
+syn match machInclude "\v^\s*(use|fwd)>" nextgroup=machRepeat,machString,machSymbol skipwhite
 syn match machRepeat "\v\w+" contained nextgroup=machString,machSymbol,machRepeat skipwhite
 "syn match machSymbol ":" contained nextgroup=machString,machRepeat skipwhite
 syn match machString "\v(\w+\.)+" contained nextgroup=machRepeat skipwhite
@@ -175,7 +175,7 @@ syn keyword machTodo contained TODO FIXME XXX NOTE
 "syn region  machComment  start="/\*" end="\*/" contains=machTodo,@Spell
 "syn match   machSymbol   "\\\\.*$"
 syn match   machComment  '\v\#.*$' contains=machTodo,@Spell
-syn match   machPreProc  '\v^\#\[\S.*$'
+syn match   machPreProc  '\v\#\[\S.*\]'
 
 " machAsm
 hi def link machAsmEntry Changed
