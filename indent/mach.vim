@@ -7,9 +7,9 @@ if !has("cindent") || !has("eval")
     finish
 endif
 
-"setlocal cindent
-setlocal expandtab
-setlocal nolisp
+"setl cindent
+setl expandtab
+setl nolisp
 "setlocal autoindent
 
 " L0 -> don't deindent labels
@@ -20,7 +20,7 @@ setlocal nolisp
 " J1 -> see j1
 " *0 -> don't search for unclosed block comments
 " #1 -> don't deindent lines that begin with #
-"setlocal cinoptions=Ls,l1,g0,t0,(s,j1,J1,p0,)0
+setl cinoptions=Ls,l1,g0,t0,(s,j1,J1,p0,)0
 
 " Controls which keys reindent the current line.
 " 0{     -> { at beginning of line
@@ -32,40 +32,44 @@ setlocal nolisp
 " O      -> `O` command
 " e      -> else
 " 0=case -> case
-setlocal indentkeys=o,O,0{,0},0),0],!^F, ",!<Tab>
+setl indentkeys=o,O,0{,0},0),0],!^F, ",!<Tab>
 "setlocal cinwords=if,or,for,while
-setlocal indentexpr=GetMachIndent(v:lnum)
+setl indentexpr=GetMachIndent(v:lnum)
 
 let b:undo_indent = "setlocal indentexpr< cinoptions< cindent< cinkeys <"
 
-function! GetMachIndent(lnum)
+fun! GetMachIndent(lnum)
     let currentLineNum = a:lnum
     let currentLine = getline(a:lnum)
 
     let prevLineNum = prevnonblank(a:lnum-1)
     let prevLine = getline(prevLineNum)
+    "let prevLine = substitute(getline(prevLineNum), '#[^[].*$', '', '')
     let sw = shiftwidth()
 
     "if prevLine =~ '\v\\\\'
         "return match(prevLine, '\\\\')
     "endif
 
-    "if prevLine =~ '\v^\s*\w+:\s*(\#.*)$'
-        "return indent(prevLineNum) - sw
-    "endif
-    "if currentLine =~ '\v\s*[)\]}]+\s*(\#.*)$'
-        "return indent(currentLineNum)
-    "endif
-    if prevLine =~ '\v([(\[{:])\s*(\#.*)$'
+    if prevLine =~ '\v^\s+\#.*'
+        return indent(prevLineNum)
+    endif
+
+    if prevLine =~ '\v([(\[{])\s*(\#.*)$'
         return indent(prevLineNum) + sw
     endif
     if prevLine =~ '\v\S+\s*(\#.*)$'
         return indent(prevLineNum)
     endif
-    "if prevLine =~ '\v([^(]&[^\[]&[^\{]&[^:])\s*$'
-        "return indent(prevLineNum)
+
+    "if currentLine =~ '\v\s*[)\]}]+\s*(\#.*)$'
+        "return indent(prevLineNum) - sw
     "endif
+    "
+    if prevLine =~ '\v([^(]&[^\[]&[^\{]&[^:])\s*$'
+        return indent(prevLineNum)
+    endif
 
     return cindent(a:lnum)
-endfunction
+endf
 
