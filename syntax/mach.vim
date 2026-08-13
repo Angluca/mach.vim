@@ -71,8 +71,8 @@ syn region machConstantSpec
     \ end=/\v\s*\>/
 
 " -- shader
-"syn match   machKeyword  '\v<(uniform|instance|varying|var|vertex|fragment|in|out)>\s'
-"syn match   machType     '\v<(texture|texture2D)>\s'
+"syn match   machKeyword  '\v<(uniform|instance|varying|var|vertex|fragment|in|out)>'
+"syn match   machType     '\v<(texture|texture2[Dd])>'
 syn match   machType     '\v<bool[234]?>'
 syn match   machType     '\v<int[234]?>'
 syn match   machType     '\v<uint[234]?>'
@@ -167,7 +167,7 @@ hi def link machPanic                 Exception
 syn match   machTypedef "\h\w*" display contained
 syn match   machFunc "\h\w*" display contained
 "syn keyword machKeyword union struct enum type nextgroup=machTypedef skipwhite skipempty
-syn keyword machKeyword union struct enum trait nextgroup=machTypedef skipwhite 
+syn keyword machKeyword def rec uni nextgroup=machTypedef skipwhite 
 "syn keyword machKeyword union nextgroup=machTypedef skipwhite skipempty contained
 syn keyword machKeyword fun nextgroup=machFunc skipwhite
 "syn keyword machTypedef asm nextgroup=machRepeat skipwhite skipempty
@@ -186,8 +186,8 @@ hi def link machAsmGoto Label
 
 syn keyword machAsmMacro main contained containedin=ALLBUT,machAsm
 "syn keyword machAsmCmd mov contained containedin=ALLBUT,machAsm
-syn region machAsm start=/\v(^|\{)\s*asm\s+\w+\s*\{/
-    \ end=/\v((^|\{)\s*asm\s+\w+\s*\{[^}]*\})|(\s+\})\s*$/
+syn region machAsm start=/\v[^#]?(^|\{)\s*asm\s+\w+\s*\{/
+    \ end=/\v((^|\{)\s*asm\s+\w+\s*\{[^}]*\})|(\s*\})\s*$/
     \ contains=machAsmEntry,machAsmCmd,machAsmCall,machAsmMacro,machAsmGoto,machComment,machConstant,machSymbol,machOperator,machType,machNumber,machFloat,machInteger
     \ containedin=ALLBUT,machAsm keepend
 syn match machAsmEntry '\v\s*asm\s+' contained containedin=ALLBUT,machAsm
