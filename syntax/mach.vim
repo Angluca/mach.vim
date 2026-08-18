@@ -25,9 +25,9 @@ syn keyword machStatement brk cnt ret fin
 syn keyword machConditional if or else elif match unless switch case
 syn keyword machInclude include link when import
 
-syn keyword machException throw try catch cast raw
-syn keyword machPanic panic
-"syn keyword machSuper   private
+"syn keyword machException throw try catch cast raw
+"syn keyword machPanic panic
+"syn keyword machSuper private
 
 syn match machPreProc   '[@]'
 syn match machSymbol    '[,;:\.]'

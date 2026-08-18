@@ -27,6 +27,10 @@ if get(g:, 'mach_recommended_style', 1)
   setl tabstop=4
   setl textwidth=80
   let b:undo_ftplugin .= ' et< sts< sw< ts< tw<'
+
+  "let s:root = expand('<sfile>:p:h:h')
+  "exe 'setl dict+='.s:root.'/dicts/mach.base.dict,'.s:root. '/dicts/mach.dict'
+  "exe 'setl dict+='.s:root.'/dicts/mach.raylib.dict'
 endif
 
 fu! DeleteTrailingWS()
