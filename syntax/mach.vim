@@ -6,7 +6,7 @@ syn keyword machKeyword let var val const static pub fun inline typedef
 syn keyword machKeyword export extern opaque embed register restrict
 syn keyword machKeyword impl alias volatile async rec uni ext def
 syn keyword machType bool char byte void string cstr str ptr
-syn keyword machType isize usize size
+syn keyword machType isize usize
 syn keyword machType int uint long ulong
 syn keyword machType float double f32 f64 f128
 
