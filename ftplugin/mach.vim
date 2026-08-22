@@ -9,7 +9,8 @@ set cpo&vim
 compiler mach
 
 " Formatting
-setl formatoptions+=croql/ formatoptions-=t
+"setl formatoptions+=croql/ formatoptions-=t
+setl formatoptions+=crql formatoptions-=t
 
 " Miscellaneous settings
 setl comments=f:#[,:#

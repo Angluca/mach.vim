@@ -20,7 +20,7 @@ setl nolisp
 " J1 -> see j1
 " *0 -> don't search for unclosed block comments
 " #1 -> don't deindent lines that begin with #
-setl cinoptions=Ls,l1,g0,t0,j1,J1,p0,)s,(s
+setl cinoptions=Ls,l1,g0,t0,j1,J1,p0,)s,(s "(2s
 
 " Controls which keys reindent the current line.
 " 0{     -> { at beginning of line
