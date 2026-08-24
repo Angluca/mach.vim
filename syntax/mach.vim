@@ -40,7 +40,7 @@ syn match machMacro     '\v<[_]*\u[A-Z0-9_]*>'
 syn match machType      '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
 syn match machType      '\v\.?\zs<([iu][0-9]{1,3})?>'
 syn match machRepeat    '\v([^\.](\.|::|-\>))@<=\w\w*'
-syn match machType      '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
+"syn match machType      '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
 syn match machFunc      '\v\w+\ze((\[[^=;]*\])|((::)?\<.*\>))*\s*\('
 
 syn match machException '\v(\W@<=[~*@!?^]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[!]+\ze\W)'
