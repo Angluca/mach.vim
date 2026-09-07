@@ -29,6 +29,19 @@ syn keyword machInclude include link when import
 "syn keyword machPanic panic
 "syn keyword machSuper private
 
+" -- shader
+"syn match   machKeyword  '\v<(uniform|instance|varying|var|vertex|fragment|in|out)>'
+"syn match   machType     '\v<(texture|texture2[Dd])>'
+"syn match   machType     '\v<bool[234]?>'
+"syn match   machType     '\v<int[234]?>'
+"syn match   machType     '\v<uint[234]?>'
+"syn match   machType     '\v<half[234]?>'
+"syn match   machType     '\v<float([234](x[234])?)?>'
+"syn match   machType     '\v<[dbui]?vec[234]>'
+syn match   machType     '\v<vec[234][dbfhui]?>'
+syn match   machType     '\v<mat[234](x[234]f)?>'
+"syn match   machType     '\v<(vec|mat|list)\ze\['
+
 syn match machPreProc   '[@]'
 syn match machSymbol    '[,;:\.]'
 syn match machOperator  '[\+\-\%=\/\^\&\*!?><\$|~]'
@@ -36,10 +49,11 @@ syn match machConstant  '[{}\[\]()]'
 syn match machType      '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\)' " (type*)
 syn match machType      '\v\[@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\]' " [type*]
 syn match machType      '\v<\w+_[tscemui]>'
+syn match machRepeat    '\v([^\.](\.|::|-\>))@<=\w\w*'
 syn match machMacro     '\v<[_]*\u[A-Z0-9_]*>'
 syn match machType      '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
 syn match machType      '\v\.?\zs<([iu][0-9]{1,3})?>'
-syn match machRepeat    '\v([^\.](\.|::|-\>))@<=\w\w*'
+
 "syn match machType      '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
 syn match machFunc      '\v\w+\ze((\[[^=;]*\])|((::)?\<.*\>))*\s*\('
 
@@ -69,19 +83,6 @@ syn region machConstantSpec
     \ contains=machType,machOperator,machMacro,machSComment,machConstant,machConstantSpec
     \ start=/\v\<\s*/
     \ end=/\v\s*\>/
-
-" -- shader
-"syn match   machKeyword  '\v<(uniform|instance|varying|var|vertex|fragment|in|out)>'
-"syn match   machType     '\v<(texture|texture2[Dd])>'
-syn match   machType     '\v<bool[234]?>'
-syn match   machType     '\v<int[234]?>'
-syn match   machType     '\v<uint[234]?>'
-syn match   machType     '\v<half[234]?>'
-syn match   machType     '\v<float([234](x[234])?)?>'
-syn match   machType     '\v<[dbui]?vec[234]>'
-syn match   machType     '\v<vec[234][dbfhui]?>'
-syn match   machType     '\v<mat[234](x[234]f)?>'
-syn match   machType     '\v<(vec|mat|list)\ze\['
 
 "hi def machSymbol ctermfg=DarkGray guifg=DarkGray
 hi def link machSMacro   SpecialComment
