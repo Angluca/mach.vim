@@ -174,9 +174,8 @@ syn keyword machKeyword fun nextgroup=machFunc skipwhite
 "syn keyword machTypedef asm nextgroup=machRepeat skipwhite skipempty
 syn keyword machTodo contained TODO FIXME XXX NOTE
 "syn region  machComment  start="/\*" end="\*/" contains=machTodo,@Spell
-"syn match   machSymbol   "\\\\.*$"
 syn match   machComment  '\v\#.*$' contains=machTodo,@Spell
-syn match   machPreProc  '\v\#\[\S.*\]'
+syn match   machPreProc  '\v\#\[\w+.{-}\]'
 
 " machAsm
 hi def link machAsmEntry Changed
