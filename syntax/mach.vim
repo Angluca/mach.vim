@@ -4,7 +4,7 @@ endif
 
 syn keyword machKeyword let var val const static pub fun inline typedef
 syn keyword machKeyword export extern opaque embed register restrict
-syn keyword machKeyword impl alias volatile async rec uni ext def
+syn keyword machKeyword impl alias volatile async rec uni ext def tag sel
 syn keyword machType bool char byte void string cstr str ptr
 syn keyword machType isize usize
 syn keyword machType int uint long ulong
@@ -49,7 +49,7 @@ syn match machConstant  '[{}\[\]()]'
 syn match machType      '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\)' " (type*)
 syn match machType      '\v\[@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\]' " [type*]
 syn match machType      '\v<\w+_[tscemui]>'
-syn match machRepeat    '\v([^\.](\.|::|-\>))@<=\w\w*'
+syn match machRepeat    '\v([^\.](\.|(-\>)))@<=\w\w*'
 syn match machMacro     '\v<[_]*\u[A-Z0-9_]*>'
 syn match machType      '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
 syn match machType      '\v\.?\zs<([iu][0-9]{1,3})?>'
@@ -58,7 +58,8 @@ syn match machType      '\v\.?\zs<([iu][0-9]{1,3})?>'
 syn match machFunc      '\v\w+\ze((\[[^=;]*\])|((::)?\<.*\>))*\s*\('
 
 syn match machException '\v(\W@<=[~*@!?^]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[!]+\ze\W)'
-syn match machException '\v(\-\>)|(:\^)'
+syn match machType      '\v((::)|(:\^)|(:\~))@<=\w\w*'
+syn match machLabel     '\v(\-\>)|(:\^)|(:\~)|(:\>)|(::)'
 
 syn match machType      '\v<[uif]\d+(x\d+)+>' "f64x6
 syn match machAdded     '\v^\s*<(test)\ze\s+'
