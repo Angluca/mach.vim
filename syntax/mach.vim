@@ -65,7 +65,7 @@ syn match machType      '\v<[uif]\d+(x\d+)+>' "f64x6
 syn match machAdded     '\v^\s*<(test)\ze\s+'
 "syn match machInclude   '\v^<(use|fwd).*'
 syn match machSComment  '\v\$(\w+)'
-"syn match machSMacro    '\v<(result|option)\ze\s*\['
+syn match machType      '\v<(res|opt)\ze\s*\['
 "syn match machMacro     '\v^\s*\[.{-}\]'
 "syn match machType      '\v<(str)\ze\s*\('
 ""syn match machSMacro    '\v<(reduce|deref|list)\ze\s*\('
@@ -169,7 +169,7 @@ hi def link machPanic                 Exception
 syn match   machTypedef "\h\w*" display contained
 syn match   machFunc "\h\w*" display contained
 "syn keyword machKeyword union struct enum type nextgroup=machTypedef skipwhite skipempty
-syn keyword machKeyword def rec uni nextgroup=machTypedef skipwhite 
+syn keyword machKeyword def rec uni tag nextgroup=machTypedef skipwhite 
 "syn keyword machKeyword union nextgroup=machTypedef skipwhite skipempty contained
 syn keyword machKeyword fun nextgroup=machFunc skipwhite
 "syn keyword machTypedef asm nextgroup=machRepeat skipwhite skipempty
