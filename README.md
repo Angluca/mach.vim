@@ -4,18 +4,27 @@ https://github.com/briar-systems/mach-lsp
 
 Install using [vim-plug](https://github.com/junegunn/vim-plug)
 ```vim
+Plug 'yegappan/lsp'
 Plug 'angluca/mach.vim'
 ```
-Set lsp if you want
+Setting lsp
 ```vim
-Plug 'yegappan/lsp'
+g:lsp_options = {
+    outlineOnRight: true,
+    outlineWinSize: 30,
+    autoComplete: true,
+    incrementalSync: true,
+    snippetSupport: false,
+    vsnipSupport: true,
+    filterCompletionDuplicates: true,
+}
 
-setl omnifunc=LspOmniFunc
-au filetype mach call LspAddServer([#{
-            \    name: 'mach',
-            \    filetype: ['mach'],
-            \    path: 'mls',
-            \  }])
+def g:MyLspSetup()
+  g:LspOptionsSet(g:lsp_options)
+  g:LspAddServer([
+    { name: 'mach', filetype: ['mach'], path: exepath('mls') },
+  ])
+enddef
+au User LspSetup call g:MyLspSetup()
 ```
-<img width="926" height="503" alt="Image" src="https://github.com/user-attachments/assets/baba9dcd-cb4a-47e1-bdc0-432c2cba7038" />
-
+<img width="438" height="396" alt="图片" src="https://github.com/user-attachments/assets/451186ef-ae1a-4516-b12a-5f3e8bf1749c" />

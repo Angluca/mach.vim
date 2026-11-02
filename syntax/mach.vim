@@ -65,7 +65,7 @@ syn match machType      '\v<[uif]\d+(x\d+)+>' "f64x6
 syn match machAdded     '\v^\s*<(test)\ze\s+'
 "syn match machInclude   '\v^<(use|fwd).*'
 syn match machSComment  '\v\$(\w+)'
-"syn match machSMacro    '\v<(result|option)\ze\s*\['
+syn match machType      '\v<(res|opt)\ze\s*\['
 "syn match machMacro     '\v^\s*\[.{-}\]'
 "syn match machType      '\v<(str)\ze\s*\('
 ""syn match machSMacro    '\v<(reduce|deref|list)\ze\s*\('
@@ -77,13 +77,13 @@ syn match machRepeat "\v\w+" contained nextgroup=machString,machSymbol,machRepea
 syn match machString "\v(\w+\.)+" contained nextgroup=machRepeat skipwhite
 syn match machString "\v:\s*(\w+(\.\w+)*)" contained
 
-syn match machConstant contained /\v[\<,\>]/
+syn match machConstant contained /\v[<>]/
 syn region machConstantSpec
     \ oneline
     \ keepend
-    \ contains=machType,machOperator,machMacro,machSComment,machConstant,machConstantSpec
-    \ start=/\v\<\s*/
-    \ end=/\v\s*\>/
+    \ contains=machType,machOperator,machMacro,machSComment,machConstant,machConstantSpec,machSymbol
+    \ start=/\v\<%(%(%(\&\&|\|\|)@!.){-}\>)@=/
+    \ end=/\v\>/
 
 "hi def machSymbol ctermfg=DarkGray guifg=DarkGray
 hi def link machSMacro   SpecialComment
@@ -139,7 +139,8 @@ syn match machFormat '{{\|}}' contained display
 
 hi def link machPreProc               PreProc
 hi def link machSuper                 Title
-hi def link machFloat                 Constant
+"hi def link machFloat                 Constant
+hi def link machFloat                 Underlined
 hi def link machInteger               Number
 hi def link machEscape                SpecialComment
 hi def link machFormat                SpecialChar
@@ -167,11 +168,12 @@ hi def link machException             Exception
 hi def link machPanic                 Exception
 
 syn match   machTypedef "\h\w*" display contained
-syn match   machFunc "\h\w*" display contained
 "syn keyword machKeyword union struct enum type nextgroup=machTypedef skipwhite skipempty
-syn keyword machKeyword def rec uni nextgroup=machTypedef skipwhite 
+syn keyword machKeyword def rec uni tag nextgroup=machTypedef skipwhite 
 "syn keyword machKeyword union nextgroup=machTypedef skipwhite skipempty contained
+syn match   machFunc "\h\w*" display contained
 syn keyword machKeyword fun nextgroup=machFunc skipwhite
+"syn keyword machAdded test nextgroup=machFunc skipwhite
 "syn keyword machTypedef asm nextgroup=machRepeat skipwhite skipempty
 syn keyword machTodo contained TODO FIXME XXX NOTE
 "syn region  machComment  start="/\*" end="\*/" contains=machTodo,@Spell
