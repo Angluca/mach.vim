@@ -27,4 +27,9 @@ def g:MyLspSetup()
 enddef
 au User LspSetup call g:MyLspSetup()
 ```
-<img width="438" height="396" alt="图片" src="https://github.com/user-attachments/assets/451186ef-ae1a-4516-b12a-5f3e8bf1749c" />
+This image color  
+[vimfiles/colors/maroloccio.vim](https://github.com/Angluca/AcVim/blob/master/vimfiles/colors/maroloccio.vim)
+```vim
+colorscheme maroloccio
+```
+<img width="400" height="380" alt="图片" src="https://github.com/user-attachments/assets/9498e083-7d6b-4297-92c7-05363900459a" />
